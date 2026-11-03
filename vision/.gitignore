@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+# Datasets, weights and exported models are large and carry their own licences: never commit them.
+data/
+models/
+runs/
+*.pt
+*.tflite
+*.onnx
+*.nb
+*.npz
