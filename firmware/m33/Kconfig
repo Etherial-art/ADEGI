@@ -1,0 +1,26 @@
+mainmenu "ADEGI M33 firmware"
+
+config ADEGI_LINK_RPMSG
+	bool "Real RPMsg link to the A35 (ipc_service + OpenAMP)"
+	depends on IPC_SERVICE
+	help
+	  Needs an "ipc0" devicetree node (see boards/*.overlay.example).
+	  When disabled, a scripted stub link is used instead.
+
+config ADEGI_WHEEL_TRACK_MM
+	int "Distance between drive wheels (mm)"
+	default 180
+
+config ADEGI_MAX_WHEEL_SPEED_MM_S
+	int "Wheel speed that maps to 100% PWM (mm/s)"
+	default 300
+
+config ADEGI_VEL_TIMEOUT_MS
+	int "Stop motors if no velocity command arrives within this time"
+	default 500
+
+config ADEGI_CONTROL_PERIOD_MS
+	int "Control loop period (ms)"
+	default 20
+
+source "Kconfig.zephyr"
