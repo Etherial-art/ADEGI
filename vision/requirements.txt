@@ -1,0 +1,13 @@
+# --- Needed everywhere (PC, Colab and the board) ---
+numpy>=1.24
+
+# --- Needed to capture frames / resize (PC; on the board it ships with X-LINUX-AI) ---
+opencv-python-headless>=4.8
+
+# --- PC / Colab ONLY (never on the board: the NPU path uses stai_mpu instead) ---
+# ultralytics          # auto-label, Ultralytics backend, training, export
+# pyyaml               # read data.yaml in tools.merge_dataset (installed with ultralytics)
+
+# --- Board ONLY ---
+# stai_mpu comes with X-LINUX-AI (OpenSTLinux); do NOT pip install generic onnxruntime / tflite-runtime
+# (they run on CPU and ignore the NPU).
