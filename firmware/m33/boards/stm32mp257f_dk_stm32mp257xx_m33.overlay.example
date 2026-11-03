@@ -1,0 +1,29 @@
+/*
+ * EXAMPLE ONLY: not picked up by the build (note the .example suffix).
+ * Copy to boards/<board>.overlay and fix the labels/pins against the board's
+ * devicetree and the STM32MP257F-DK schematic before enabling.
+ * Node labels (&timers1, &gpioa, &ipc0 ...) below are placeholders.
+ */
+
+/ {
+	zephyr,user {
+		/* Motor 0 = left, 1 = right. Period 50 us = 20 kHz (inaudible). */
+		pwms = <&pwm1 1 PWM_USEC(50) PWM_POLARITY_NORMAL>,
+		       <&pwm1 2 PWM_USEC(50) PWM_POLARITY_NORMAL>;
+		/* Mount one motor mirrored? Use GPIO_ACTIVE_LOW on its DIR pin. */
+		dir-gpios = <&gpioa 0 GPIO_ACTIVE_HIGH>,
+			    <&gpioa 1 GPIO_ACTIVE_LOW>;
+	};
+
+	/* Shared memory used by RPMsg; must match the Linux reserved-memory/remoteproc setup. */
+	/*
+	ipc0: ipc {
+		compatible = "zephyr,ipc-openamp-static-vrings";
+		memory-region = <&shmem>;
+		mboxes = <&ipcc 1>, <&ipcc 2>;
+		mbox-names = "tx", "rx";
+		role = "remote";
+		status = "okay";
+	};
+	*/
+};
