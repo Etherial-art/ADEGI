@@ -184,6 +184,20 @@ Mensajes cortos para caber en un buffer RPMsg (≤ 256 B). `src`/`ts` pueden omi
 ```
 `speaker`: `user` | `robot`. Sirve para registro y para que `behavior` reaccione a intenciones (p. ej. "sígueme").
 
+### 3.7 Mensajes que usa la app familiar
+
+> Propuesta (la app ya la implementa): el protocolo no decía qué reenvía el `gateway` a la app. Si el equipo decide otra cosa, ajustar aquí y en `app/`.
+
+| Dirección | Mensajes | Uso en la app |
+|---|---|---|
+| gateway → app | `sys.heartbeat` | Detectar que el robot sigue enviando datos. Sin mensajes por 5 s → "Sin señal". |
+| gateway → app | `behavior.state` | Batería, modo, en base. |
+| gateway → app | `vision.persons` | "Visto por última vez": se actualiza cuando `persons` no está vacío. (A 10–15 Hz el gateway puede reducirla a ~1 Hz para la app.) |
+| gateway → app | `alert.fall`, `reminder.medication`, `sys.error` | Alertas, recordatorios e historial. Se deduplican por `alert_id` / `reminder_id`. |
+| app → gateway | `alert.ack` | Reconocer una alerta; `by` es el identificador configurado en la app. |
+
+La app ignora `vision.fall_detected` (usa `alert.fall`) y cualquier tipo desconocido.
+
 ## 4. Puente Jetson (TCP `:9000`)
 
 Cada mensaje es un **frame** con prefijo de longitud (big-endian):
